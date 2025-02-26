@@ -110,14 +110,29 @@
             font-size: 14px;
         }
 
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                height: auto;
+            }
+            .form-container {
+                padding: 20px;
+                max-width: 100%;
+            }
             form {
                 grid-template-columns: 1fr;
+                gap: 10px;
             }
             .full-width {
                 grid-column: span 1;
             }
+            input, select, textarea, button {
+                font-size: 16px;
+                padding: 14px;
+            }
         }
+
     </style>
 </head>
 <body>
