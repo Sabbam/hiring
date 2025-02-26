@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Freelancers</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* Reset and Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #007bff, #6610f2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            transition: 0.3s ease-in-out;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #007bff;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #0056b3, #520dc2);
+        }
+
+        #responseMessage {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Hire Freelancers</h2>
+        <form id="hiringForm">
+            <div class="full-width">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" placeholder="e.g. John Doe" required>
+            </div>
+
+            <div>
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" placeholder="e.g. john@example.com" required>
+            </div>
+
+            <div>
+                <label for="linkedin">LinkedIn Profile</label>
+                <input type="url" id="linkedin" name="linkedin" placeholder="e.g. https://linkedin.com/in/johndoe">
+            </div>
+
+            <div>
+                <label for="github">GitHub Profile</label>
+                <input type="url" id="github" name="github" placeholder="e.g. https://github.com/johndoe">
+            </div>
+
+            <div>
+                <label for="freelance">Freelance Profile (Upwork/Fiverr) *</label>
+                <input type="url" id="freelance" name="freelance" placeholder="e.g. https://www.upwork.com/freelancers/johndoe" required>
+            </div>
+
+            <div>
+                <label for="platform">Freelance Platform *</label>
+                <select id="platform" name="platform" required>
+                    <option value="">Select Platform</option>
+                    <option value="Upwork">Upwork</option>
+                    <option value="Fiverr">Fiverr</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="skills">Skills *</label>
+                <input type="text" id="skills" name="skills" placeholder="e.g. Web Development, SEO" required>
+            </div>
+
+            <div>
+                <label for="experience">Experience (Years) *</label>
+                <input type="number" id="experience" name="experience" min="0" placeholder="e.g. 3" required>
+            </div>
+
+            <div>
+                <label for="company">Company/Agency</label>
+                <input type="text" id="company" name="company" placeholder="e.g. ABC Tech Solutions">
+            </div>
+
+            <div class="full-width">
+                <label for="message">Previous Projects/Works</label>
+                <textarea id="message" name="message" placeholder="e.g. Built an e-commerce website for ABC Tech"></textarea>
+            </div>
+
+            <div class="full-width">
+                <button type="submit">Submit Application</button>
+            </div>
+        </form>
+        <p id="responseMessage"></p>
+    </div>
+
+    <script>
+        (function() {
+            emailjs.init("VOz3ee93QDepA-hTx");
+        })();
+
+        document.getElementById("hiringForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            emailjs.sendForm("service_m8mn6st", "template_mdlfzdd", this)
+                .then(function(response) {
+                    document.getElementById("responseMessage").textContent = "✅ Application submitted successfully!";
+                    document.getElementById("responseMessage").style.color = "green";
+                    document.getElementById("hiringForm").reset();
+                })
+                .catch(function(error) {
+                    console.error("EmailJS Error:", error);
+                    document.getElementById("responseMessage").textContent = "❌ Failed to submit. Please try again.";
+                    document.getElementById("responseMessage").style.color = "red";
+                });
+        });
+    </script>
+</body>
+</html>
